@@ -63,15 +63,35 @@ const Settings: React.FC<SettingsProps> = ({ settings, onUpdate }) => {
 
           <section className="pt-6 border-t border-slate-100 space-y-4">
              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">API Configuration</h3>
-             <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex items-start gap-3">
-               <svg className="w-5 h-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-               <div className="text-sm">
-                 <p className="font-bold text-indigo-900 mb-1">Environmental Configuration</p>
-                 <p className="text-indigo-700 leading-relaxed">
-                   The Google Gemini API key is currently managed through your deployment's environment variables (<code>API_KEY</code>). This ensures maximum security for your solo workspace.
-                 </p>
-               </div>
+             <div>
+               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Gemini API Key</label>
+               <input
+                 type="password"
+                 placeholder="Paste your Gemini API Key here..."
+                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none bg-white font-mono text-sm"
+                 value={settings.apiKey}
+                 onChange={(e) => handleChange('apiKey', e.target.value)}
+               />
+               <p className="text-xs text-slate-400 mt-2">
+                 Get your free API key at{' '}
+                 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">
+                   aistudio.google.com/apikey
+                 </a>
+                 {' '}— Your key is stored locally in your browser only.
+               </p>
              </div>
+             {settings.apiKey && (
+               <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2 text-emerald-700 text-sm">
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                 API Key is set and saved.
+               </div>
+             )}
+             {!settings.apiKey && (
+               <div className="p-3 bg-amber-50 rounded-xl border border-amber-100 flex items-center gap-2 text-amber-700 text-sm">
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 Please add your API Key to start generating research.
+               </div>
+             )}
           </section>
 
           <section className="pt-6 border-t border-slate-100">

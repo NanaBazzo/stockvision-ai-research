@@ -38,7 +38,7 @@ const Dashboard: React.FC<DashboardProps> = ({ settings, onSave, currentResult, 
     setCurrentResult(null); // Clear previous result to show loading state cleanly
     
     try {
-      const resultData = await generateResearch(topic, platform, marketType, style, settings.language);
+      const resultData = await generateResearch(topic, platform, marketType, style, settings.language, settings.apiKey);
       const fullResult = resultData as ResearchResult;
       onSave(fullResult);
     } catch (err) {

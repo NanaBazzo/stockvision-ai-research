@@ -16,6 +16,7 @@ const App: React.FC = () => {
     language: 'English',
     defaultStyle: ImageStyle.REALISTIC,
     defaultPlatform: Platform.SHUTTERSTOCK,
+    apiKey: '',
   });
 
   // Load history and settings from localStorage

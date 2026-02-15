@@ -7,9 +7,13 @@ export const generateResearch = async (
   platform: Platform,
   marketType: MarketType,
   style: ImageStyle,
-  language: 'Thai' | 'English'
+  language: 'Thai' | 'English',
+  apiKey: string
 ): Promise<Partial<ResearchResult>> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  if (!apiKey) {
+    throw new Error("Please set your Gemini API Key in Settings first.");
+  }
+  const ai = new GoogleGenAI({ apiKey });
   
   const systemInstruction = `
     You are a professional stock image SEO and market research expert.

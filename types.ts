@@ -43,4 +43,5 @@ export interface AppSettings {
   language: 'Thai' | 'English';
   defaultStyle: ImageStyle;
   defaultPlatform: Platform;
+  apiKey: string;
 }
