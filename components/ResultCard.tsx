@@ -15,8 +15,49 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
     setTimeout(() => setCopied(null), 2000);
   };
 
+  const downloadExcel = () => {
+    const escapeCsv = (val: string) => `"${val.replace(/"/g, '""')}"`;
+    const headers = ['Field', 'Value'];
+    const rows = [
+      ['Topic', result.topic],
+      ['Platform', result.platform],
+      ['Market Type', result.marketType],
+      ['Style', result.style],
+      ['Title', result.title],
+      ['Description', result.description],
+      ['Keywords', result.keywords.join(', ')],
+      ['Tags', result.tags.join(', ')],
+      ['Theme', result.theme],
+      ['Commercial Angle', result.commercialAngle],
+      ['Buyer Intent', result.buyerIntent],
+      ['AI Prompt', result.aiPrompt],
+    ];
+    const csv = '\uFEFF' + [headers, ...rows].map(row => row.map(escapeCsv).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${result.topic.replace(/[^a-zA-Z0-9ก-๙]/g, '_')}_research.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="space-y-4">
+      {/* Download Button */}
+      <div className="flex justify-end">
+        <button
+          onClick={downloadExcel}
+          className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-100 transition-all active:scale-95"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Download Excel
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Main Metadata */}
       <div className="lg:col-span-2 space-y-6">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -137,6 +178,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
